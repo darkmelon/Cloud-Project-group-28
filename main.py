@@ -144,7 +144,7 @@ def add_user():
 
       data=cursor.execute("SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}' ".format(email)).fetchall()
 
-      if data != null:
+      if data == null:
 
 
          return redirect('/register')
