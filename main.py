@@ -104,7 +104,8 @@ def login_validate():
       connection = open_connection()
       with connection.connect() as cursor:
 
-          data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email)).fetchone()
+          result = cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
+          data = result.fetchone()
           if data != null:
              user=data
 
