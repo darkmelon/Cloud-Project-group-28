@@ -96,7 +96,7 @@ def login_validate():
 
       password_entered=request.form.get('password')
       connection = open_connection()
-      with connection.cursor() as cursor:
+      with connection.connect as cursor:
 
           data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
           if data>0:
@@ -109,14 +109,14 @@ def login_validate():
                  session['email']=user['Email_ID']
                  session['userid']=user['User_ID']
                  cursor.close()
-                 connection.close()
+
                  return redirect(url_for('index'))
              else:
-                 connection.close()
+
                  return render_template('login.html')
 
           else:
-                 connection.close()
+
                  return render_template('login.html')
 
 
@@ -125,8 +125,8 @@ def login_validate():
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
-    conn = open_connection()
-    with conn.cursor() as cursor:
+    connection = open_connection()
+    with connection.connect as cursor:
 
       firstname=request.form.get('ufirstname')
       lastname=request.form.get('ulastname')
@@ -139,15 +139,14 @@ def add_user():
       data = cursor.fetchall()
       if result>0:
 
-         conn.close()
+
          return redirect('/register')
 
       else:
 
           cursor.execute("""INSERT INTO `Users` (`User_ID`,`First_Name`,`Last_Name`,`Email_ID`,`Password`,`User_Role`) VALUES (NULL,'{}','{}','{}','{}','User')"""
                    .format(firstname,lastname,email,pw_hash) )
-          conn.commit()
-          conn.close()
+
 
           return render_template('login.html')
 
