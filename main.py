@@ -33,6 +33,8 @@ db_pass = "abcd1234"
 db_name = "booksdb"
 cloud_sql_connection_name = "united-time-307112:europe-west2:booksdb"
 db_socket_dir= "/cloudsql"
+db_host = "35.234.145.114"
+db_port = "3306"
 
 #Open connection to Cloud sql database
 def open_connection():
@@ -44,12 +46,14 @@ def open_connection():
             drivername="mysql+pymysql",
             username=db_user,  # e.g. "my-database-user"
             password=db_pass,  # e.g. "my-database-password"
-            database=db_name,  # e.g. "my-database-name"
-            query={
-                "unix_socket": "{}/{}".format(
-                    db_socket_dir,  # e.g. "/cloudsql"
-                    cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
-            }
+            host=db_host,  # e.g. "127.0.0.1"
+            port=db_port,  # e.g. 3306
+            database=db_name  # e.g. "my-database-name"
+            # query={
+            #     "unix_socket": "{}/{}".format(
+            #         db_socket_dir,  # e.g. "/cloudsql"
+            #         cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
+            #}
         ),
 
     )
