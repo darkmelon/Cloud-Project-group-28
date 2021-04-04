@@ -124,7 +124,7 @@ def login_validate():
 
           else:
 
-                 return render_template('login.html')
+                 return render_template('insert.html')
 
 
 
