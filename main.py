@@ -105,7 +105,7 @@ def login_validate():
       with connection.connect() as cursor:
 
           data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
-          if data.count() != null:
+          if data != null:
              user=cursor.fetchone()
 
              password=user['Password']
