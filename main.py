@@ -8,15 +8,9 @@
 from flask import Flask, flash, redirect, render_template, request, session, url_for,abort
 from flask_bcrypt import Bcrypt
 import bcrypt
-
-import MySQLdb
 import pymysql
-import datetime
 import requests
-import random
-import re
 import os
-import pandas as pd
 import db
 
 app = Flask(__name__)
