@@ -85,8 +85,8 @@ def login_validate():
       email=request.form.get('email')
 
       password_entered=request.form.get('password')
-      conn = open_connection()
-      with conn.cursor() as cursor:
+      connection = open_connection()
+      with connection.cursor() as cursor:
 
           data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
           if data>0:
@@ -99,14 +99,14 @@ def login_validate():
                  session['email']=user['Email_ID']
                  session['userid']=user['User_ID']
                  cursor.close()
-                 conn.close()
+                 connection.close()
                  return redirect(url_for('index'))
              else:
-                 conn.close()
+                 connection.close()
                  return render_template('login.html')
 
           else:
-                 conn.close()
+                 connection.close()
                  return render_template('login.html')
 
 
