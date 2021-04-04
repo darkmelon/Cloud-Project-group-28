@@ -1,3 +1,4 @@
+  
 # This is a sample Python script.
 
 # Press Shift+F10 to execute it or replace it with your code.
@@ -8,10 +9,17 @@
 from flask import Flask, flash, redirect, render_template, request, session, url_for,abort
 from flask_bcrypt import Bcrypt
 import bcrypt
+
+#import MySQLdb
 import pymysql
+#import datetime
 import requests
+#import random
+#import re
 import os
+#import pandas as pd
 import db
+
 
 app = Flask(__name__)
 
@@ -19,16 +27,35 @@ bcrypt = Bcrypt(app)
 
 app.secret_key= os.urandom(24)
 
+db_user = os.environ.get('CLOUD_SQL_USERNAME')
+db_password = os.environ.get('CLOUD_SQL_PASSWORD')
+db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
+db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
+
+#Open connection to Cloud sql database
+def open_connection():
+    unix_socket = '/cloudsql/{}'.format(db_connection_name)
+    try:
+        if os.environ.get('GAE_ENV') == 'standard':
+            conn = pymysql.connect(user=db_user, password=db_password,
+                                unix_socket=unix_socket, db=db_name,
+                                cursorclass=pymysql.cursors.DictCursor
+                                )
+    except pymysql.MySQLError as e:
+        print(e)
+
+    return conn
+
 #Connecting to google cloud data base
 
-connection = pymysql.connect(#unix_socket = '/cloudsql/united-time-307112:europe-west2:booksdb',
-        host= '35.234.145.114',
-        user='booksdb',
-        password='abcd1234',
-        db='booksdb',
-        cursorclass=pymysql.cursors.DictCursor)
+#connection = pymysql.connect(#unix_socket = '/cloudsql/united-time-307112:europe-west2:booksdb',
+#        host= '35.234.145.114',
+#        user='booksdb',
+#        password='abcd1234',
+#        db='booksdb',
+#        cursorclass=pymysql.cursors.DictCursor)
 
-cursor=connection.cursor()
+#cursor=connection.cursor()
 
 
 
@@ -58,31 +85,38 @@ def login_validate():
       email=request.form.get('email')
 
       password_entered=request.form.get('password')
-      cursor=connection.cursor()
+      conn = open_connection()
+      with conn.cursor() as cursor:
 
-      data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
-      if data>0:
-         user=cursor.fetchone()
+          data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
+          if data>0:
+             user=cursor.fetchone()
 
-         password=user['Password']
-         if bcrypt.check_password_hash(password, password_entered):
-             print('password')
-             session["login"]=True
-             session['email']=user['Email_ID']
-             session['userid']=user['User_ID']
-             return redirect(url_for('index'))
-             cursor.close()
-         else:
-              return render_template('login.html')
+             password=user['Password']
+             if bcrypt.check_password_hash(password, password_entered):
+                 print('password')
+                 session["login"]=True
+                 session['email']=user['Email_ID']
+                 session['userid']=user['User_ID']
+                 cursor.close()
+                 conn.close()
+                 return redirect(url_for('index'))
+             else:
+                 conn.close()
+                 return render_template('login.html')
 
-      else:
-              return render_template('login.html')
+          else:
+                 conn.close()
+                 return render_template('login.html')
+
 
 
 #Here we are doing the registration of an user and using POST method to add those information to database
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
+    conn = open_connection()
+    with conn.cursor() as cursor:
 
       firstname=request.form.get('ufirstname')
       lastname=request.form.get('ulastname')
@@ -95,15 +129,15 @@ def add_user():
       data = cursor.fetchall()
       if result>0:
 
+         conn.close()
          return redirect('/register')
 
       else:
 
           cursor.execute("""INSERT INTO `Users` (`User_ID`,`First_Name`,`Last_Name`,`Email_ID`,`Password`,`User_Role`) VALUES (NULL,'{}','{}','{}','{}','User')"""
                    .format(firstname,lastname,email,pw_hash) )
-          connection.commit()
-
-
+          conn.commit()
+          conn.close()
 
           return render_template('login.html')
 
@@ -226,7 +260,6 @@ def update_library(library_id):
       return redirect('/')
 
 
-@app.route('/delete_library/<int:library_id>', methods=["GET"])
 def delete_library(library_id):
     if 'userid' in session:
         current_user = session['userid']
@@ -241,7 +274,6 @@ def delete_library(library_id):
       return redirect('/')
 
 
-
 @app.route('/update_book/<int:book_id>/', methods = ["POST", "GET"])
 def update_book(book_id):
     if 'userid' in session:
@@ -254,12 +286,6 @@ def update_book(book_id):
             return redirect(url_for('books'))
     else:
       return redirect('/')
-
-
-
-
-
-
 
 
 @app.route('/edit/<int:library_id>', methods=['GET','POST'])
@@ -299,6 +325,4 @@ def delete_book(book_id):
      else:
         return redirect('/')
 
-
 app.run()
-
