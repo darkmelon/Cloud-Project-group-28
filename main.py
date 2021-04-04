@@ -38,7 +38,7 @@ def open_connection():
     #try:
        # if os.environ.get('GAE_ENV') == 'standard':
     connection = pymysql.connect(unix_socket = '/cloudsql/united-time-307112:europe-west2:booksdb',
-        #host= '35.234.145.114',
+        host= '35.234.145.114',
         user='booksdb',
         password='abcd1234',
         db='booksdb',
