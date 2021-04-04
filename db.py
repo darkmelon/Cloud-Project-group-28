@@ -106,8 +106,8 @@ def add_lib(libraryname, Description, userid):
 def get_libraries(user_id):
     conn = open_connection()
     with conn.cursor() as cursor:
-        cursor.execute("SELECT * FROM Libraries WHERE user_id = %s",(user_id))
-        libraries = cursor.fetchall()
+        result = cursor.execute("SELECT * FROM Libraries WHERE user_id = %s",(user_id))
+        libraries = result.fetchall()
         conn.close()
         return libraries
 
