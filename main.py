@@ -275,14 +275,14 @@ def update_library(library_id):
       return redirect('/')
 
 
-def delete_library(library_id):
+def delete_library(library_ids):
     if 'userid' in session:
         current_user = session['userid']
-        lib_data = db.get_library_user(library_id)
+        lib_data = db.get_library_user(library_ids)
         lib_user = lib_data['user_id']
         if lib_user != current_user:
             abort(403)
-        db.delete_lib(library_id)
+        db.delete_lib(library_ids)
         flash("Library Deleted Successfully")
         return redirect(url_for('index'))
     else:
