@@ -275,14 +275,14 @@ def update_library(library_id):
       return redirect('/')
 
 @app.route('/delete_library/<int:library_id>', methods=["GET"])
-def delete_library(library_ids):
+def delete_library(library_id):
     if 'userid' in session:
         current_user = session['userid']
-        lib_data = db.get_library_user(library_ids)
+        lib_data = db.get_library_user(library_id)
         lib_user = lib_data['user_id']
         if lib_user != current_user:
             abort(403)
-        db.delete_lib(library_ids)
+        db.delete_lib(library_id)
         flash("Library Deleted Successfully")
         return redirect(url_for('index'))
     else:
