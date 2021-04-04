@@ -96,7 +96,7 @@ def login_validate():
 
       password_entered=request.form.get('password')
       connection = open_connection()
-      with connection.connect as cursor:
+      with connection.connect() as cursor:
 
           data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
           if data>0:
@@ -126,7 +126,7 @@ def login_validate():
 @app.route('/add_user', methods=['POST'])
 def add_user():
     connection = open_connection()
-    with connection.connect as cursor:
+    with connection.connect() as cursor:
 
       firstname=request.form.get('ufirstname')
       lastname=request.form.get('ulastname')
