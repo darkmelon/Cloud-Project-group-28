@@ -2,27 +2,35 @@
 #db.py
 import os
 import pymysql
+import sqlalchemy
 
-db_user = os.environ.get('CLOUD_SQL_USERNAME')
-db_password = os.environ.get('CLOUD_SQL_PASSWORD')
-db_name = os.environ.get('CLOUD_SQL_DATABASE_NAME')
-db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
-
+db_user = "booksdb"
+db_pass = "abcd1234"
+db_name = "booksdb"
+cloud_sql_connection_name = "united-time-307112:europe-west2:booksdb"
+db_socket_dir= "/cloudsql"
 #Open connection to Cloud sql database
 def open_connection():
-    unix_socket = '/cloudsql/{}'.format(db_connection_name)
-    #try:
-        #if os.environ.get('GAE_ENV') == 'standard':
-    connection = pymysql.connect(unix_socket = '/cloudsql/united-time-307112:europe-west2:booksdb',
-        host= '35.234.145.114',
-        user='booksdb',
-        password='abcd1234',
-        db='booksdb',
-        cursorclass=pymysql.cursors.DictCursor)
-    #except pymysql.MySQLError as e:
-     #   print(e)
+    unix_socket = '/cloudsql/{}'.format(cloud_sql_connection_name)
+    pool = sqlalchemy.create_engine(
+        # Equivalent URL:
+        # mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=<socket_path>/<cloud_sql_instance_name>
+        sqlalchemy.engine.url.URL(
+            drivername="mysql+pymysql",
+            username=db_user,  # e.g. "my-database-user"
+            password=db_pass,  # e.g. "my-database-password"
+            database=db_name,  # e.g. "my-database-name"
+            query={
+                "unix_socket": "{}/{}".format(
+                    db_socket_dir,  # e.g. "/cloudsql"
+                    cloud_sql_connection_name)  # i.e "<PROJECT-NAME>:<INSTANCE-REGION>:<INSTANCE-NAME>"
+            }
+        ),
 
-    return connection
+    )
+    # [END cloud_sql_mysql_sqlalchemy_create_socket]
+
+    return pool
 
 #connection = pymysql.connect(#unix_socket = '/cloudsql/united-time-307112:europe-west2:booksdb',
 #        host= '35.234.145.114',
