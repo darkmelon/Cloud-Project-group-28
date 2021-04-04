@@ -11,16 +11,18 @@ db_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME')
 #Open connection to Cloud sql database
 def open_connection():
     unix_socket = '/cloudsql/{}'.format(db_connection_name)
-    try:
-        if os.environ.get('GAE_ENV') == 'standard':
-            conn = pymysql.connect(user=db_user, password=db_password,
-                                unix_socket=unix_socket, db=db_name,
-                                cursorclass=pymysql.cursors.DictCursor
-                                )
-    except pymysql.MySQLError as e:
-        print(e)
+    #try:
+        #if os.environ.get('GAE_ENV') == 'standard':
+    connection = pymysql.connect(#unix_socket = '/cloudsql/united-time-307112:europe-west2:booksdb',
+        host= '35.234.145.114',
+        user='booksdb',
+        password='abcd1234',
+        db='booksdb',
+        cursorclass=pymysql.cursors.DictCursor)
+    #except pymysql.MySQLError as e:
+     #   print(e)
 
-    return conn
+    return connection
 
 #connection = pymysql.connect(#unix_socket = '/cloudsql/united-time-307112:europe-west2:booksdb',
 #        host= '35.234.145.114',
