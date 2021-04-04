@@ -325,4 +325,5 @@ def delete_book(book_id):
      else:
         return redirect('/')
 
-app.run()
+if __name__ == "main":
+    app.run()
