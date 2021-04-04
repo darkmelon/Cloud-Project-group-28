@@ -52,8 +52,8 @@ def add_users(username,password):
 def get_users():
     conn = open_connection()
     with conn.connect() as cursor:
-        cursor.execute("SELECT * FROM Users ")
-        books = cursor.fetchall()
+        result = cursor.execute("SELECT * FROM Users ")
+        books = result.fetchall()
 
         return books
 
@@ -66,8 +66,8 @@ def add_library(libraryname,Description,userid):
 def get_libraryname(userid):
     conn = open_connection()
     with conn.connect() as cursor:
-        cursor.execute("SELECT name ,library_id  FROM Libraries where user_id = '%s' " %userid)
-        library_name = cursor.fetchall()
+        result = cursor.execute("SELECT name ,library_id  FROM Libraries where user_id = '%s' " %userid)
+        library_name = result.fetchall()
 
         return library_name
 
@@ -87,8 +87,8 @@ def add_users(username, password):
 def get_users():
     conn = open_connection()
     with conn.connect() as cursor:
-        cursor.execute("SELECT * FROM Users ")
-        books = cursor.fetchall()
+        result = cursor.execute("SELECT * FROM Users ")
+        books = result.fetchall()
 
         return books
 
@@ -126,8 +126,8 @@ def delete_lib(library_id):
 def get_bk(library_id):
     conn = open_connection()
     with conn.connect() as cursor:
-        cursor.execute("SELECT * FROM books WHERE library_id = %s",(library_id))
-        books = cursor.fetchall()
+        result = cursor.execute("SELECT * FROM books WHERE library_id = %s",(library_id))
+        books = result.fetchall()
 
         return books
 
@@ -142,8 +142,8 @@ def update_bk(book_id,name,author,genre):
 def get_userlib(library_id):
     conn = open_connection()
     with conn.connect() as cursor:
-        cursor.execute("SELECT * FROM Libraries WHERE library_id = %s",(library_id))
-        library = cursor.fetchone()
+        result = cursor.execute("SELECT * FROM Libraries WHERE library_id = %s",(library_id))
+        library = result.fetchone()
 
         return library
 
@@ -156,16 +156,16 @@ def delete_bk(book_id):
 def get_library_id(book_id):
     conn = open_connection()
     with conn.connect() as cursor:
-        cursor.execute("SELECT * FROM books WHERE book_id = %s",(book_id))
-        library = cursor.fetchone()
+        result = cursor.execute("SELECT * FROM books WHERE book_id = %s",(book_id))
+        library = result.fetchone()
 
         return library
 
 def get_library_user(library_id):
     conn = open_connection()
     with conn.connect() as cursor:
-        cursor.execute("SELECT * FROM Libraries WHERE library_id = %s",(library_id))
-        lib_data = cursor.fetchone()
+        result = cursor.execute("SELECT * FROM Libraries WHERE library_id = %s",(library_id))
+        lib_data = result.fetchone()
 
         return lib_data
 
