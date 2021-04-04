@@ -28,7 +28,7 @@ app = Flask(__name__)
 
 bcrypt = Bcrypt(app)
 
-app.secret_key= os.urandom(24)
+app.secret_key= "qwerty1234"
 
 db_user = "booksdb"
 db_pass = "abcd1234"
