@@ -104,9 +104,9 @@ def login_validate():
       connection = open_connection()
       with connection.connect() as cursor:
 
-          data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
+          data=cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email)).fetchone()
           if data != null:
-             user=cursor.ResultProxy().fetchone()
+             user=data
 
              password=user['Password']
              if bcrypt.check_password_hash(password, password_entered):
@@ -141,9 +141,9 @@ def add_user():
 
       pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
-      result=cursor.execute("SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}' ".format(email))
-      data = cursor.ResultProxy.fetchall()
-      if result>0:
+      data=cursor.execute("SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}' ".format(email)).fetchall()
+
+      if data != null:
 
 
          return redirect('/register')
