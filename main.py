@@ -274,7 +274,7 @@ def update_library(library_id):
     else:
       return redirect('/')
 
-
+@app.route('/delete_library/<int:library_id>', methods=["GET"])
 def delete_library(library_ids):
     if 'userid' in session:
         current_user = session['userid']
