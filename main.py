@@ -120,11 +120,11 @@ def login_validate():
                  return redirect(url_for('index'))
              else:
 
-                 return render_template('login.html')
+                 return render_template('insert.html')
 
           else:
 
-                 return render_template('insert.html')
+                 return render_template('login.html')
 
 
 
