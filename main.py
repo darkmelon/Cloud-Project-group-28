@@ -105,7 +105,7 @@ def login_validate():
       with connection.connect() as cursor:
 
           result = cursor.execute("""SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}'""".format(email))
-          data = result.fetchone()
+          data = result.fetchall()
           if data != null:
              user=data
 
@@ -120,7 +120,7 @@ def login_validate():
                  return redirect(url_for('index'))
              else:
 
-                 return render_template('insert.html')
+                 return render_template('login.html')
 
           else:
 

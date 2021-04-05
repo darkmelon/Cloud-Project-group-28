@@ -1,6 +1,8 @@
 
 
 
+
+
 {% block title %}
     Search
 {% endblock %}
@@ -12,7 +14,7 @@
             <div class="form-group">
                 <label for="title">Book title:</label>
                 <input autocomplete="on" autofocus class="form-control" placeholder="Enter the title of the book" id="title"
-                       name="title" type="text"/>
+                       name="title" type="text" required="1"/>
             </div>
             <div class="form-group">
                 <label for="author">Book author (optional):</label>
@@ -21,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label for="author">Select your Library to add Books:</label>
-                <select multiple="multiple" name="libraryid" >
+                <select multiple="multiple" name="libraryid" required="1">
                     {% for l in library_list %}
                         <option value="{{l.library_id }}">{{ l.name }}</option>
                     {% endfor %}
