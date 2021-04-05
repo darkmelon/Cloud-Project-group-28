@@ -30,12 +30,12 @@ bcrypt = Bcrypt(app)
 
 app.secret_key= "qwerty1234"
 
-db_user = "bookdb"
+db_user = "booksdb"
 db_pass = "abcd1234"
-db_name = "bookdb"
-cloud_sql_connection_name = "united-time-307112:europe-west2:bookdb"
+db_name = "booksdb"
+cloud_sql_connection_name = "united-time-307112:europe-west2:booksdb"
 db_socket_dir= "/cloudsql"
-db_host = "35.242.187.88"
+db_host = "35.234.145.114"
 db_port = "3306"
 
 #Open connection to Cloud sql database
