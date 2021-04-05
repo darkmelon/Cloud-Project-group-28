@@ -141,8 +141,8 @@ def add_user():
       password=request.form.get('upassword')
 
       pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-
-      data=cursor.execute("SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}' ".format(email)).fetchall()
+      result = cursor.execute("SELECT * FROM `Users` WHERE `Email_ID` LIKE '{}' ".format(email))
+      data = result.fetchall()
 
       if data != null:
 
