@@ -159,16 +159,18 @@ def add_user():
 
 @app.route('/index')
 def index():
-
+ if 'userid' in session:
         userid = session['userid']
         lib_data = db.get_libraries(userid)
         return render_template('home.html', libraries = lib_data)
-
+ else :
+      return redirect('/')
 
 
 
 @app.route('/logout')
 def logout():
+    session.clear()
     return redirect('/')
 
 # search route
