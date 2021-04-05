@@ -1,6 +1,33 @@
 # Cloud-Project-groupp-28
 
-main.py contains all the app data and builds the web pages and api for the my library page 
+his file will explain the purpouse of each of the files we used in our application:
 
-db.py contains the database calls made to cloud sql database 
+Main python files:
+*****************
+
+db.py -> This is the python file that we used for the connection with our external cloud database(Google Cloud SQL ).Every time we modify,add,open or delete any User,Library or Books data this file will get called from main.py 
+main.py -> This is our main application file that will execute the CURD operation using Flask, we have googles books API that also connected here. The routing of the url and other methods are also present here 
+
+Static folder:All CSS and JS files will be saved here.
+*****************
+
+styles.css --> This is the cascade style sheet file and it contains the background styles we used in our application's log page and registration page.This is located within css folder and that css folder is located within static folder.
+index.js -> This java script we have used for our library and books page to display and deatils and their look and feel.This file is in the static folder.
+
+
+templates Folder: All our html pages are stored in templates folder.
+*******************************************************************
+
+login.html:  Login page of our application
+register.html:  Registration page of our application
+home.html: After successful login user will be directed to this page.User can add library or serach book from this page.
+Create_library.htm: once user click on add new library button on home.html this page will get open.
+library.html:Once user entered the library name and deatils application will navigate to next page called library page where user can see all the added library information user just entered in last page.This will also allow the user to open,update or delete any library they added.
+search.html : If user clicks on Search Books Here button on library page, application will nagivate to search.html page.It will ash user to enter the books name that they want to search from google books API.
+search_results.html:Once user enter the search book deatils then application will conncet with google books API and dispaly all related books in the search_result.html page.
+
+
+requirements.txt
+******************
+This file will be used for specifying all the python packages are required to run the project.
 
